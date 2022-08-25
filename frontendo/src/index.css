@@ -1,0 +1,355 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@500;600&family=Roboto:ital,wght@0,500;0,700;1,400;1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen&display=swap');
+
+/* Color theme */
+:root
+{
+    --navGray: #404040;
+    --navFontHover: gainsboro;
+    --contentGray: #666666;
+    --bodyGray: #333333;
+    --fontColor: aliceblue;
+    --ButtonBg: rgb(54, 55, 57);
+    --ButtonBgHover: rgb(65, 65, 81);
+    --errorBorder: rgb(255, 30, 80);
+    --error: rgb(255, 47, 0);
+}
+
+body
+{
+  overflow-x: hidden;
+  margin: 0px;
+  padding: 0px;
+  font-family: 'Quicksand', sans-serif;
+  color:var(--fontColor);
+  background-color: var(--bodyGray);
+}
+
+.positionRelative
+{
+  position: relative;
+}
+
+
+h1
+{
+  margin: 0px;
+  padding: 0px;
+}
+
+nav
+{
+  background-color: var(--navGray);
+  position: sticky;
+  top: 0;
+  width: 100%; 
+  z-index: 2;
+}
+
+nav *
+{
+  display: inline-block;
+}
+
+.navContainer
+{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-size: 20px;
+}
+
+nav ul li
+{
+  margin-right: 20px
+}
+
+#logo
+{
+  margin-left: 10px;
+}
+
+nav ul li:hover, #logo:hover
+{
+  color:var(--navFontHover);
+  cursor: pointer;
+}
+
+.navContainer a
+{
+  text-decoration: no;
+  color:var(--fontColor);
+}
+
+.dropdown
+{
+  position: relative;
+}
+
+.dropdown:hover .dropdown-menu
+{
+  display: block;
+}
+
+.dropdown-menu
+{
+  text-align: center;
+  display: none;
+  position: absolute;
+  background-color: var(--navGray);
+  border: var(--bodyGray) solid 1px;
+  border-top: none;
+  top:25px;
+  left: -25px;
+  width: 80%;
+  z-index: 1;
+}
+
+.dropdown-menu li
+{
+  position: relative;
+  width: 90px;
+  left: -40px;
+}
+
+.dropdown-menu li:hover
+{
+  color:white;
+}
+
+.dropdown-menu .light:hover
+{
+  box-shadow: 0px 2px 5px 2px rgb(255, 255, 255, .3);
+}
+
+.dropdown-menu .dark:hover
+{
+  box-shadow: 0px 2px 4px 3px rgb(0, 0, 0, 1);
+}
+
+.dropdown-menu .colorful:hover
+{
+  box-shadow: 0px 2px 4px 2px rgb(255, 154, 59);
+}
+
+.content
+{
+  max-width: 800px;
+  margin: 0px auto;
+  padding: 10px;
+  background-color: var(--contentGray); 
+}
+
+.card
+{
+  border: black solid 1px;
+  border-radius: 2px;
+  background-color: var(--navGray);
+  transition: box-shadow 0.3s;
+  padding: 10px;
+  margin: 20px 5px;
+}
+
+.card p
+{
+    opacity: 0.85;
+    white-space: nowrap;
+    width: 100%;                   /* IE6 needs any width */
+    overflow: hidden;              /* "overflow" value must be different from  visible"*/ 
+    -o-text-overflow: ellipsis;    /* Opera < 11*/
+    text-overflow:    ellipsis;    /* IE, Safari (WebKit), Opera >= 11, FF > 6 */
+    z-index: 1;
+}
+
+.card:hover
+{
+  -webkit-box-shadow: 8px 8px 24px 0px rgba(0, 0, 0, 1);
+  -moz-box-shadow: 8px 8px 24px 0px rgba(0, 0, 0, 1);
+  box-shadow: 8px 8px 24px 0px rgba(0, 0, 0, 1);
+  cursor: pointer;
+}
+
+.addBlogLink
+{
+  position: absolute;
+  padding: 10px;
+  right: 35px;
+  top: 100px;
+}
+
+.addBlogLink:hover
+{
+  background-color: var(--navGray);
+  cursor: default;
+
+  border-radius: 360px;
+}
+
+.addBlogLink a
+{
+  color: black;
+  position: relative;
+  left: 100px;
+  padding: 3px 10px;
+  border: solid white 1px;
+  background-color: var(--navGray);
+  border-radius: 20px;
+  text-decoration: none;
+}
+
+.addBlogLink a:hover
+{
+  background-color: var(--contentGray);
+}
+
+.blogCreate *
+{
+  display: block;
+  text-align: center;
+
+}
+
+.blogCreate label
+{
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-size: 1.5rem;
+  text-align: left;
+}
+
+.blogCreate input, textarea
+{
+  margin-bottom: 20px;
+  width: 175%;
+  border: solid var(--contentGray) 1px;
+  border-radius: 8px;
+  text-align: left;
+}
+
+.blogCreate input
+{
+  padding: 5px 8px;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.blogCreate textarea
+{
+  padding: 5px;
+  font-family: 'Roboto', sans-serif;
+  height: 250px;
+  text-align: left;
+}
+
+.blogCreate button
+{
+  margin-left: 250px;
+}
+
+.button
+{
+  margin-bottom: 10px;
+  background-color: var(--ButtonBg);
+  padding: 5px 10px;
+  align-items: center;
+  color: rgb(240, 248, 255);
+  border: black solid 1px;
+  border-radius: 25px;
+  font-family: 'Silkscreen', cursive;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+.button:hover
+{
+  background-color: var(--ButtonBgHover);
+  border: black solid 1px;
+}
+
+.blogDetails
+{
+  padding: 10px;
+}
+
+.BlogDetailsComponentEdit
+{
+  position: absolute;
+  top: 20px;
+  right: 15px;
+}
+
+.BlogDetailsComponentDelete
+{
+  position: absolute;
+  top: 20px;
+  right: 15px;
+}
+
+.BlogDetailsComponentAccept
+{
+  position: absolute;
+  bottom: 20px;
+  right: 15px;
+}
+
+.formContainer
+{
+  display: flex;
+  align-items: center;
+  width: 1200px;
+  padding: 20px;
+  margin-left: 75px;
+}
+
+.signupContainer
+{
+  width: 600px;
+  margin: 20px auto;
+  padding: 10px;
+  background-color: white;
+  color: black;
+  border-radius: 15px;
+}
+
+.signup label
+{
+  margin-left: 25px;
+  display: block;
+  font-size: 1.3rem;
+  margin-bottom: 5px;
+}
+
+.signup input
+{
+  display: block;
+  margin: 0px auto;
+  margin-bottom: 25px;
+  border-radius: 25px;
+  border: solid #333333 1px;
+  font-size: 1.15rem;
+  padding: 8px 12px;
+  width: 90%;
+}
+
+.signup button
+{
+  display: block;
+  margin: 15px auto;
+}
+
+.yourBlogs
+{
+  border-bottom: solid var(--navGray) 2px;
+  padding-bottom: 30px;
+  margin-bottom: 30px;
+}
+
+.error
+{
+  padding: 10px;
+  color: var(--error);
+  border: var(--errorBorder) solid 3px ;
+}
