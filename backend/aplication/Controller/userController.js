@@ -44,6 +44,10 @@ const Signup = async (req, res) => {
     }
 }
 
+const Logout = async (req, res) => {
+    console.log("ok");
+}
+
 module.exports = { 
     Login,
     Signup
