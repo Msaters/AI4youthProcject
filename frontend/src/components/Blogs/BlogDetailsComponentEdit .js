@@ -20,9 +20,8 @@ const BlogDetailsComponentEdit  = ({blog, setIsEditing, setBlog, stateValue} ) =
         }
 
         console.log("add here are you sure?");
-        fetch(`/api/name/blogs/${blog._id}`, {method: 'DELETE', headers: {'Authorization': `Bearer ${user.json.token}`}})
+        fetch(`http://localhost:4000/api/name/blogs/${blog._id}`, {method: 'DELETE', headers: {'Authorization': `Bearer ${user.json.accessToken}`}})
         .then(res => {
-            console.log(res);
             if (!res.ok)
             {
                 throw new Error("coudn't handle deleteing something went wrong");
@@ -48,24 +47,29 @@ const BlogDetailsComponentEdit  = ({blog, setIsEditing, setBlog, stateValue} ) =
             setError("Request not authenticated");
             return;
         }
+        try {
+            //fetch patch
+            const response = await fetch(`http://localhost:4000/api/name/blogs/${blog._id}`, 
+            {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${user.json.accessToken}` },
+                body: JSON.stringify({ title: title, author: author, body: body})
+            });
 
-        //fetch patch
-        const response = await fetch(`/api/name/blogs/${blog._id}`, 
-        {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${user.json.token}` },
-            body: JSON.stringify({ title: title, author: author, body: body})
-        });
+            const json = await response.json();
+            if (!response.ok)
+            {
+                setError({json});
+                setIsEditing(false);
+                return;
+            }
 
-        const json = await response.json();
-        if (!response.ok)
-        {
-            setError({json});
-            return;
+            setBlog(json);
+            setIsEditing(false);
+        } catch (error) {
+            setError({error});
+            setIsEditing(false);
         }
-
-        setBlog(json);
-        setIsEditing(false);
     }
 
     useEffect(() => {

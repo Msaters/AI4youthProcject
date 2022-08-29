@@ -3,7 +3,8 @@ const {
     Login,
     Signup,
     TokenHandler,
-    Logout
+    Logout,
+    ValidationHandler
 } = require('../Controller/userController');
 const userRouter = express.Router();
 
@@ -18,5 +19,8 @@ userRouter.post("/signup", Signup);
 
 //log out
 userRouter.delete("/logout", Logout);
+
+//validate
+userRouter.get('/validate', ValidationHandler);
 
 module.exports = userRouter;

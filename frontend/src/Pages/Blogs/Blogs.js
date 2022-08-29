@@ -15,8 +15,9 @@ const Blogs = () => {
     useEffect(() => {
        const fetchBlogs = async () => {
         try {
-            const response = await fetch("/api/name/blogs/", {headers: {'Authorization': `Bearer ${user.json.token}`}});
+            const response = await fetch("http://localhost:4000/api/name/blogs/", {headers: {'Authorization': `Bearer ${user.json.accessToken}`}});
             const json = await response.json();
+            console.log(json);
             if (!response.ok) {
                 throw Error(json);
             }

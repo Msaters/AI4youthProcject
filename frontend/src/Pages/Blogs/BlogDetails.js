@@ -4,6 +4,7 @@ import BlogDetailsComponent from "../../components/Blogs/BlogDetailComponent";
 import BlogDetailsComponentEdit from "../../components/Blogs/BlogDetailsComponentEdit ";
 import { useAuthContext } from '../../hooks/useAuthContext';
 import stateFetch from "../../axios/stateFetch";
+import axios from 'axios';
 
 const BlogDetails = () => {
     const { id } = useParams();
@@ -38,7 +39,8 @@ const BlogDetails = () => {
         const fetchBlog = async () => {
             //get the blog data
             try {
-                const response = await fetch(`/api/name/blogs/${id}`, {headers: {'Authorization': `Bearer ${user.json.token}`}});
+                const response = await axios.get(`http://localhost:4000/api/name/blogs/${id}`, {headers: {'Authorization': `Bearer ${user.json.accessToken}`}});
+                console.log(response);
                 const json = await response.json();
                 if (!response.ok) {
                     throw Error(json);

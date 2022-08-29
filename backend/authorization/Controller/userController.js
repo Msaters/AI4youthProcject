@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
 const createAccessToken = (_id) => {
-    const token = jwt.sign({_id}, process.env.SECRET, {expiresIn: '15s'})
+    const token = jwt.sign({_id}, process.env.SECRET, {expiresIn: '5m'})
     return token;
 }
 
@@ -19,7 +19,7 @@ const Login = async (req, res) => {
         }   
 
         //create token
-        const accesToken = createAccessToken(user._id);
+        const accessToken = createAccessToken(user._id);
         const refreshToken = jwt.sign({_id: user._id}, process.env.REFRESH_TOKEN_SECRET, {expiresIn: '1y'})
 
         //hash refresh_token
@@ -29,7 +29,7 @@ const Login = async (req, res) => {
         await refreshTokenModel.findOneAndDelete({email: email});
         await refreshTokenModel.create({refresh_token: hash, email: email});
 
-        res.status(200).json({email: email, accesToken, refreshToken});
+        res.status(200).json({email: email, accessToken, refreshToken});
     } catch (error) {
       res.status(400).json({error: error.message});  
     }
@@ -46,7 +46,7 @@ const Signup = async (req, res) => {
         }   
 
         //create token
-        const accesToken = createAccessToken(user._id);
+        const accessToken = createAccessToken(user._id);
         const refreshToken = jwt.sign({_id: user._id}, process.env.REFRESH_TOKEN_SECRET, {expiresIn: '1y'})
 
 		//hash refresh_token
@@ -55,7 +55,7 @@ const Signup = async (req, res) => {
 		//commect refresh token to database
         await refreshTokenModel.create({refresh_token: hash, email: email});
 
-        res.status(200).json({email, accesToken, refreshToken});
+        res.status(200).json({email, accessToken, refreshToken});
     } catch (error) {
       res.status(400).json({error: error.message});  
     }
@@ -75,7 +75,7 @@ const Logout = async (req, res) => {
 
     if (!refresh_token_db)
     {
-      return res.status(404).json({error: "You have already been logout."});
+      return res.status(404).json({error: "You have already been logout. Your email is not valid."});
     }
 
     const match = await bcrypt.compare(refresh_token, refresh_token_db.refresh_token);
@@ -115,18 +115,51 @@ const TokenHandler = async (req, res) => {
 
     jwt.verify(refresh_token, process.env.REFRESH_TOKEN_SECRET, (err, user_id) => {
       if (err) return res.status(403).json({error: "Your refresh token must get veryfied correctly"});
-      const accesToken = createAccessToken({ _id: user_id });
-      return res.status(200).json({accesToken: accesToken});
+      const accessToken = createAccessToken({ _id: user_id });
+      return res.status(200).json({accessToken: accessToken});
     })
   } catch (error) {
     return res.status(400).json({error: error.message});
   }
 }
 
+const ValidationHandler = async (req, res) => {
+  //verify authentication credentials
+  const { authorization } = req.headers;
+
+  if (!authorization) {
+      return res.status(401).json({error: 'Authorization token is required'});
+  }
+
+  const token = authorization.split(" ")[1];
+
+  try {
+      const {_id} = jwt.verify(token, process.env.SECRET);
+      
+      const user = await userModel.findById(_id).select("_id");
+      //console.log(_id, req.user);
+
+      if (!user) {
+        res.status(403).json({error: "There is no user with that accessToken"});
+      }
+
+      res.status(200).json(user);
+
+  } catch (error) {
+      if (error.message === "jwt expired")
+      {
+        return res.status(401).json({error: "jwt expired"});
+      }
+      res.status(401).json({error: "Request is not authorized"});
+  }
+}
+
+
 
 module.exports = { 
     Login,
     Signup,
     TokenHandler,
-    Logout
+    Logout,
+    ValidationHandler
 }
