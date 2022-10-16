@@ -20,7 +20,7 @@ const BlogDetails = () => {
         const fetchState = async () => {
             //chek if client is authenticated to edit the blog
             try {
-                const response = await stateFetch(user, id);
+                const response = await stateFetch(id);
                 if (response.statusText != "OK") {
                     throw Error(response);
                 }

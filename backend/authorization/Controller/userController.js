@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
 const createAccessToken = (_id) => {
-    const token = jwt.sign({_id}, process.env.SECRET, {expiresIn: '5m'})
+    const token = jwt.sign({_id}, process.env.SECRET, {expiresIn: '1y'})
     return token;
 }
 
@@ -99,13 +99,20 @@ const TokenHandler = async (req, res) => {
   try {
     const refresh_token = req.body.refresh_token;
     const email = req.body.email;
-
     if (!refresh_token || !email)
     {
       return res.status(401).json({error: "You must provide refresh token and email."});
     }
 
-    const {refresh_token: refresh_token_db} = await refreshTokenModel.findOne({email});
+    const refreshTokenModelFromDataBase = await refreshTokenModel.findOne({email: email});
+    if (!refreshTokenModelFromDataBase)
+    {
+      return res.status(404).json({error: "There is no Refresh Token linked to your account try to logout and login."});
+    }
+    const {refresh_token: refresh_token_db} = refreshTokenModelFromDataBase;
+
+    const refreshToken = refreshTokenModelFromDataBase.refresh_token;
+    
     const match = await bcrypt.compare(refresh_token, refresh_token_db);
     
     if (!match)
@@ -119,6 +126,7 @@ const TokenHandler = async (req, res) => {
       return res.status(200).json({accessToken: accessToken});
     })
   } catch (error) {
+    console.log(error);
     return res.status(400).json({error: error.message});
   }
 }
