@@ -353,3 +353,10 @@ nav ul li:hover, #logo:hover
   color: var(--error);
   border: var(--errorBorder) solid 3px ;
 }
+
+.absolut
+{
+  position: absolute;
+  top: 175px;
+  left: 200px;
+}

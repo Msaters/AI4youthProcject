@@ -8,6 +8,7 @@ import React, { useEffect, useState } from 'react';
 import ThemeContextProvider  from "./contexts/ThemeContext";
 import Signup from './Pages/User/Signup';
 import Login from './Pages/User/Login';
+import FaceRegonition from './Pages/User/faceRegonition';
 import { useAuthContext } from './hooks/useAuthContext';
 
 
@@ -30,6 +31,7 @@ function App() {
             <Navbar />
             <div className="content">
               <Routes>
+                <Route path="/faceRegonition" element= {!user ? <FaceRegonition /> : <Navigate to="/" />} />
                 <Route  exact path="/" element= {user ? <Home /> : <Navigate to="/login" />} />
                 <Route  exact path="/blogs" element= {user ? <Blogs /> : <Navigate to="/login" />} />
                 <Route  exact path="/blogs/create" element= {user ? <BlogCreate /> : <Navigate to="/login" />} />

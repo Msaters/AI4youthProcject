@@ -26,18 +26,19 @@ const BlogCreate = () => {
             method: 'POST',
             headers: { 
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${user.json.token}`
+                'Authorization': `Bearer ${user.json.accessToken}`
             },
             body: JSON.stringify({ title: title, author: author, body: body})
         };
 
         try{
-            const response = await fetch("/api/name/blogs", requestOptions);
+            const response = await fetch("http://localhost:4000/api/name/blogs/", requestOptions);
             const json = await response.json();
 
             if (!response.ok)
             {
-                throw new Error(json);
+                console.log(json);
+                throw new Error(json.error);
             }
             else
             {

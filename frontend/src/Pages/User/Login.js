@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import {Link} from 'react-router-dom'
 import { useLogin } from '../../hooks/useLogin';
 
 const Login = () => {
@@ -24,6 +25,7 @@ const Login = () => {
                 { isLoading && <button className="button" disabled>Loading...</button>}
                 { !isLoading && <button className="button">Log in</button>}
                 { error && <div className="error">{error}</div>}
+                <Link to="/faceRegonition">Zaloguj sie twarzom</Link>
             </form>
 </div>
      );

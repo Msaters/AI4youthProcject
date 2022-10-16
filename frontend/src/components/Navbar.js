@@ -2,14 +2,12 @@ import {Link} from 'react-router-dom'
 import { useThemeContext } from '../hooks/useThemeContext';
 import { styles } from '../contexts/ThemeContext';
 import { useEffect, useState } from 'react';
-import { useLogout } from '../hooks/useLogout';
 import { useAuthContext } from '../hooks/useAuthContext';
 
 const Navbar = () => {
     const {state, dispatch} = useThemeContext();
     const [actualStyle, setActualStyle] = useState("dark");
-    const {logout} = useLogout();
-    const {user} = useAuthContext();
+    const {user, dispatch: userDispatch} = useAuthContext();
 
     useEffect(() => {
         setActualStyle(state.theme);
@@ -34,7 +32,7 @@ const Navbar = () => {
                                     <Link to="#"><li>spolecznosc</li></Link>
                                     <Link to="#"><li>friends</li></Link>
                                     <Link to="/blogs"><li>blog</li></Link>
-                                    <li><button className='button' onClick={logout}>Logout</button></li>
+                                    <li><button className='button' onClick={() => {userDispatch({type: "LOGOUT"})}}>Logout</button></li>
                                 </ul>
                             </div>
 

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import BlogPreview from "../../components/Blogs/BlogPreview"
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../../hooks/useAuthContext';
+import axios from 'axios';
 
 const Blogs = () => {
     const [notYourBlogs, setNotYourBlogs] = useState(null);
@@ -15,9 +16,14 @@ const Blogs = () => {
     useEffect(() => {
        const fetchBlogs = async () => {
         try {
-            const response = await fetch("/api/name/blogs/", {headers: {'Authorization': `Bearer ${user.json.token}`}});
+            console.log("dzialamy");
+            const response = await fetch("http://localhost:4000/api/name/blogs/", {headers: {'Authorization': `Bearer ${user.json.accessToken}`}});
+            console.log(response);
             const json = await response.json();
+
             if (!response.ok) {
+                console.log(json);
+                //refersh
                 throw Error(json);
             }
             setYourBlogs(json.yourBlogs);
